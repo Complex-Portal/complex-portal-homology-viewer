@@ -1,0 +1,43 @@
+<html>
+<head>
+	<title> Test </title>
+	<meta charset="utf-8" />
+</head>
+<body>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script>
+		var pies = [ [1,1,1], [1,2,3], [2,3,4] ];
+		var w = 500, h = 500;
+		var svg = d3.select("body")
+					.append("svg")
+					.attr("width", w)
+					.attr("height", h);
+
+		var pie = d3.layout.pie()
+		var color = d3.scale.category10();
+		var outerRadius = 20;
+		var innerRadius = 0;
+
+		var arc = d3.svg.arc()
+					.innerRadius(innerRadius)
+					.outerRadius(outerRadius);
+
+		for (k=0;k<3;k++) {
+			var pieData = pie(pies[k]);
+			for (j=1;j<=5;j++) {
+				className = '.g' + j;
+				var arcs = svg.selectAll(className)
+							  .data(pieData)
+							  .sort(null)
+							  .enter()
+							  .append("g")
+							  .attr("class", className)
+							  .attr("transform","translate("+ (100+50*k) +","+ (50*j) +")") 
+							  .append("path")
+							  .attr("fill", function(d,i){return color(i);})
+							  .attr("d", function(d){return arc(d);});
+			}
+		}
+	</script>
+</body>
+</html>
